@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.core.KoinComponent
 import kotlin.coroutines.CoroutineContext
 
-abstract class UseCase<in T, out O> : CoroutineScope, KoinComponent {
+abstract class UseCase<in T, out O> : CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
