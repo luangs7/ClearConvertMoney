@@ -1,0 +1,24 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply from: "base-build.gradle"
+
+
+android {
+    defaultConfig {
+        applicationId "com.luan.clearconvertmoney"
+    }
+}
+
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    api modulesDependencies.common
+    implementation modulesDependencies.values()
+}

@@ -1,0 +1,113 @@
+ext {
+    def versions = [
+            gradleTools         : "4.0.0",
+            kotlin              : "1.3.72",
+            googlePlayServices  : "4.2.0",
+            retrofit            : "2.6.1",
+            retrofitConverter   : "2.3.0",
+            koin                : "2.0.1",
+            glide               : "4.10.0",
+            retrofitLogging     : "4.1.1",
+            glideTransformations: "4.1.0",
+            android             :
+                    [
+                            material: "1.3.0-alpha01"
+                    ],
+            androidx            :
+                    [
+                            lifecycle        : "2.0.0",
+                            appcompat        : "1.1.0-rc01",
+                            coreKTX          : "1.2.0-alpha03",
+                            constrainLayout  : "2.0.0-beta4",
+                            vectorDrawable   : "1.1.0-rc01",
+                            room             : "2.2.6",
+                            legacySupport    : "1.0.0",
+                            databinding      : "4.0.0",
+                            lifecycleCompiler: "2.2.0-alpha03",
+                            navigation       : "2.3.0-alpha05",
+                            paging           : "3.0.0-alpha12"
+                    ],
+            kotlinX             :
+                    [
+                            coroutines: "1.3.0-M2"
+                    ],
+            firebase            :
+                    [
+                            core          : "17.0.1",
+                            config        : "18.0.0",
+                            messaging     : "19.0.1",
+                            inAppMessaging: "18.0.2",
+                            crashlytics   : "2.10.1"
+                    ],
+
+            exifinterface       : "1.0.0",
+            test                :
+                    [
+                            junit                   : "4.12",
+                            mockito                 : "3.0.0",
+                            androidxRunner          : "1.2.0-alpha03",
+                            androidxEspresso        : "3.1.1",
+                            androidxCore            : "1.2.0-alpha03",
+                            livedataTesting         : "1.1.0",
+                            mockitoKotlin           : "2.0.0",
+                            coreTesting             : "2.0.1",
+                            hierachicalContextRunner: "4.12.1",
+                            junitExt                : "1.1.1"
+                    ]
+    ]
+
+    buildDependencies = [
+            androidBuildTools: "com.android.tools.build:gradle:${versions.gradleTools}",
+            kotlin           : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+            googleServices   : "com.google.gms:google-services:${versions.googlePlayServices}",
+            navigation       : "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.androidx.navigation}"
+    ]
+
+    libDependencies = [
+            material            : "com.google.android.material:material:${versions.android.material}",
+            lifecycleExtensions : "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}",
+            lifecycleViewModel  : "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx.lifecycle}",
+            appcompat           : "androidx.appcompat:appcompat:${versions.androidx.appcompat}",
+            legacySupport       : "androidx.legacy:legacy-support-v4:${versions.androidx.legacySupport}",
+            coreKTX             : "androidx.core:core-ktx:${versions.androidx.coreKTX}",
+            constrainLayout     : "androidx.constraintlayout:constraintlayout:${versions.androidx.constrainLayout}",
+            vectorDrawable      : "androidx.vectordrawable:vectordrawable:${versions.androidx.vectorDrawable}",
+            kotlin              : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+            retrofit            : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+            retrofitConverter   : "com.squareup.retrofit2:converter-gson:${versions.retrofitConverter}",
+            coroutinesCore      : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinX.coroutines}",
+            coroutinesAndroid   : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlinX.coroutines}",
+            databinding         : "androidx.databinding:databinding-common:${versions.androidx.databinding}",
+            navigationFragment  : "androidx.navigation:navigation-fragment-ktx:${versions.androidx.navigation}",
+            navigationUI        : "androidx.navigation:navigation-ui-ktx:${versions.androidx.navigation}",
+            paging              : "androidx.paging:paging-runtime:${versions.androidx.paging}",
+            koinAndroid         : "org.koin:koin-android:${versions.koin}",
+            koinAndroidScope    : "org.koin:koin-androidx-scope:${versions.koin}",
+            koinAndroidViewModel: "org.koin:koin-androidx-viewmodel:${versions.koin}",
+            retrofitLogging     : "com.squareup.okhttp3:logging-interceptor:${versions.retrofitLogging}",
+            glide               : "com.github.bumptech.glide:glide:${versions.glide}",
+            glideTransformations: "jp.wasabeef:glide-transformations:${versions.glideTransformations}",
+            exifinterface       : "androidx.exifinterface:exifinterface:${versions.exifinterface}",
+            room                : "androidx.room:room-runtime:${versions.androidx.room}",
+            roomCompiler        : "androidx.room:room-compiler:${versions.androidx.room}",
+            roomCoroutines      : "androidx.room:room-ktx:${versions.androidx.room}"
+    ]
+
+    annotationProcessors = [
+            lifecycleCompiler: "androidx.lifecycle:lifecycle-compiler:${versions.androidx.lifecycleCompiler}"
+    ]
+
+    modulesDependencies = [
+            common       : project(":common")
+    ]
+
+    testDependencies = [
+            junit           : "junit:junit:${versions.test.junit}",
+            livedataTesting : "com.jraska.livedata:testing-ktx:${versions.test.livedataTesting}",
+            mockito         : "org.mockito:mockito-core:${versions.test.mockito}",
+            mockitoKotlin   : "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.test.mockitoKotlin}",
+            koinTest        : "org.koin:koin-test:${versions.koin}",
+            coreTesting     : "androidx.arch.core:core-testing:${versions.test.coreTesting}",
+            coroutinesTest  : "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.kotlinX.coroutines}",
+    ]
+}
