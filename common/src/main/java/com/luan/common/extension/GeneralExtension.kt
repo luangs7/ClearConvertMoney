@@ -11,3 +11,5 @@ fun Fragment.handleLoading(status: ViewState.Status, view:View){
 }
 
 fun <T> Response<T>.isNotFound():Boolean = this.code() == 404
+
+infix fun <T> Boolean.then(param: T): T? = if (this) param else null

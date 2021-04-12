@@ -1,15 +1,17 @@
 package com.luan.domain.model
 
 
+import androidx.room.Dao
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class ResponseCurrencies(
+@Entity
+class ResponseCurrencies(
     @SerializedName("currencies")
     val currencies: Map<String, String>?,
-    @SerializedName("privacy")
-    val privacy: String? = "",
+    @PrimaryKey
     @SerializedName("success")
-    val success: Boolean? = false,
-    @SerializedName("terms")
-    val terms: String? = ""
+    val success: Boolean = false,
 )

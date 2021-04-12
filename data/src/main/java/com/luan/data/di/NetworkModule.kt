@@ -1,8 +1,9 @@
-package com.luan.common.di
+package com.luan.data.di
 
 
 
 import com.google.gson.GsonBuilder
+import com.luan.data.remote.AccessTokenInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -21,6 +22,7 @@ class NetworkModule {
         private fun provideOkHttpClient(): OkHttpClient {
             val builder = OkHttpClient.Builder()
                 .followRedirects(true)
+                .addInterceptor(AccessTokenInterceptor())
                 .addNetworkInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })

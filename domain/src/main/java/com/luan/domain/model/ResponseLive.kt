@@ -1,24 +1,26 @@
 package com.luan.domain.model
 
 
+import androidx.room.Dao
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class ResponseLive(
-    @SerializedName("error")
-    val error: Error? = null,
-    @SerializedName("privacy")
-    val privacy: String? = "",
     @SerializedName("quotes")
-    val quotes: Map<String, String>?,
+    var quotes: Map<String, String>?,
+    @PrimaryKey
     @SerializedName("source")
-    val source: String? = "",
+    val source: String = SOURCE_DEFAULT,
     @SerializedName("success")
-    val success: Boolean? = false,
-    @SerializedName("terms")
-    val terms: String? = "",
-    @SerializedName("timestamp")
-    val timestamp: Int? = 0
+    val success: Boolean = false
 ){
+
+    @SerializedName("error")
+    @Ignore
+    val error: Error? = null
 
     companion object{
         const val SOURCE_DEFAULT = "USD"

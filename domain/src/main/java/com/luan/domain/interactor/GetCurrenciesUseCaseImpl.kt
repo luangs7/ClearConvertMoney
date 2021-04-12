@@ -1,8 +1,6 @@
 package com.luan.domain.interactor
 
-import android.util.Log
 import com.luan.common.base.ViewState
-import com.luan.common.interactor.UseCase
 import com.luan.domain.model.Currency
 import com.luan.domain.model.CurrencyResponse
 import com.luan.domain.model.ResponseLive

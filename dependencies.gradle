@@ -89,16 +89,18 @@ ext {
             glideTransformations: "jp.wasabeef:glide-transformations:${versions.glideTransformations}",
             exifinterface       : "androidx.exifinterface:exifinterface:${versions.exifinterface}",
             room                : "androidx.room:room-runtime:${versions.androidx.room}",
-            roomCompiler        : "androidx.room:room-compiler:${versions.androidx.room}",
             roomCoroutines      : "androidx.room:room-ktx:${versions.androidx.room}"
     ]
 
     annotationProcessors = [
-            lifecycleCompiler: "androidx.lifecycle:lifecycle-compiler:${versions.androidx.lifecycleCompiler}"
+            lifecycleCompiler: "androidx.lifecycle:lifecycle-compiler:${versions.androidx.lifecycleCompiler}",
+            roomCompiler        : "androidx.room:room-compiler:${versions.androidx.room}"
     ]
 
     modulesDependencies = [
-            common       : project(":common")
+            common       : project(":common"),
+            domain       : project(":domain"),
+            data         : project(":data")
     ]
 
     testDependencies = [

@@ -1,0 +1,16 @@
+android {
+    flavorDimensions "api"
+    productFlavors {
+        mock {
+            buildConfigField "String", "API_KEY", "\"83f58c6f2c4580ac84edf6ee34612cce\""
+            buildConfigField "Boolean", "IS_MOCK", "true"
+            dimension "api"
+        }
+        prod {
+            buildConfigField "String", "API_KEY", "\"83f58c6f2c4580ac84edf6ee34612cce\""
+            buildConfigField "Boolean", "IS_MOCK", "false"
+            dimension "api"
+        }
+
+    }
+}
