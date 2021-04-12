@@ -8,9 +8,8 @@ import com.luan.domain.exceptions.CurrencyListEmptyException
 import com.luan.domain.exceptions.CurrencyServiceException
 import com.luan.domain.model.ResponseLive
 import com.luan.domain.repository.ConvertCurrencyRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 
 class ConvertCurrencyRepositoryImpl(
     private val service: ConvertCurrencyService,
@@ -18,7 +17,12 @@ class ConvertCurrencyRepositoryImpl(
 ) : ConvertCurrencyRepository {
 
     override suspend fun getCurrencies(): Flow<ViewState<Map<String, String>>> = flow {
-        emit(ViewState.loading())
+        getCurrenciesFromApi()
+                .catch { getCurrenciesFromLocal().collect { emit(it) } }
+                .collect { emit(it) }
+    }
+
+    private suspend fun getCurrenciesFromApi(): Flow<ViewState<Map<String, String>>> = flow {
         val response = service.currenciesList()
         if (response.isSuccessful) {
             response.body()?.let { result ->
@@ -26,22 +30,32 @@ class ConvertCurrencyRepositoryImpl(
                     dao.saveCurrencies(result)
                     emit(ViewState.loaded(result.currencies))
                 } else {
-                    emit(ViewState.error<Map<String, String>>(CurrencyServiceException()))
+                    throw CurrencyServiceException(result.error?.info)
                 }
-            } ?: kotlin.run { emit(ViewState.error<Map<String, String>>(CurrencyListEmptyException())) }
+            } ?: kotlin.run { throw CurrencyListEmptyException() }
         } else {
-            dao.getCurrencies().collect {
-                if(it.currencies.isNullOrEmpty().not()) {
-                    emit(ViewState.loaded(it.currencies))
-                }else {
-                    emit(ViewState.error<Map<String, String>>(CurrencyListEmptyException()))
-                }
+            throw CurrencyServiceException()
+        }
+    }.flowOn(Dispatchers.Default)
+
+    private suspend fun getCurrenciesFromLocal(): Flow<ViewState<Map<String, String>>> = flow {
+        dao.getCurrencies().collect { result ->
+            result?.let {
+                emit(ViewState.loaded(it.currencies))
+            } ?: kotlin.run {
+                throw CurrencyListEmptyException()
             }
         }
-    }
+    }.flowOn(Dispatchers.Default)
 
     override suspend fun getLiveQuotes(): Flow<ViewState<ResponseLive>> = flow {
-        emit(ViewState.loading<ResponseLive>())
+        getLiveQuotesFromApi()
+                .catch { getLiveQuotesFromDao().collect { emit(it) } }
+                .collect { emit(it) }
+    }.flowOn(Dispatchers.Default)
+
+
+    private fun getLiveQuotesFromApi(): Flow<ViewState<ResponseLive>> = flow {
         val response = service.getLive()
         if (response.isSuccessful) {
             response.body()?.let { result ->
@@ -49,29 +63,29 @@ class ConvertCurrencyRepositoryImpl(
                     result.quotes = transformQuotes(result.quotes)
                     dao.saveLive(result)
                     emit(ViewState.loaded(result))
-                }else{
-                    emit(ViewState.error<ResponseLive>(CurrencyServiceException(result.error?.info)))
+                } else {
+                    throw CurrencyServiceException(result.error?.info)
                 }
-            } ?: kotlin.run { emit(ViewState.error<ResponseLive>(CurrencyListEmptyException())) }
-        } else {
-            dao.getLive().collect { result ->
-                if(result.quotes.isNullOrEmpty().not()){
-                    emit(ViewState.loaded(result))
-                }else{
-                    emit(ViewState.error<ResponseLive>(CurrencyListEmptyException()))
-                }
+            } ?: kotlin.run { throw CurrencyListEmptyException() }
+        }
+    }.flowOn(Dispatchers.Default)
 
+    private fun getLiveQuotesFromDao(): Flow<ViewState<ResponseLive>> = flow {
+        dao.getLive().collect { result ->
+            result?.let {
+                emit(ViewState.loaded(it))
+            } ?: kotlin.run {
+                throw CurrencyListEmptyException()
             }
         }
-    }
+    }.flowOn(Dispatchers.Default)
 
     private fun transformQuotes(quotes: Map<String, String>?): HashMap<String, String> {
         val newQuotes = hashMapOf<String, String>()
         quotes?.forEach {
             newQuotes[(it.key == "${ResponseLive.SOURCE_DEFAULT}${ResponseLive.SOURCE_DEFAULT}") then ResponseLive.SOURCE_DEFAULT
-                ?: it.key.replace(ResponseLive.SOURCE_DEFAULT, "")] = it.value
+                    ?: it.key.replace(ResponseLive.SOURCE_DEFAULT, "")] = it.value
         }
-
         return newQuotes
     }
 }

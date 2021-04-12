@@ -16,7 +16,9 @@ class GetCurrenciesUseCaseImpl(
              currencies.data?.entries?.forEach {
                 listCurrencies.add(Currency(it.key,it.value, live.data?.quotes?.get(it.key)?.toDouble() ?: 0.0))
              }
-             emit(ViewState.loaded(CurrencyResponse(listCurrencies,live.data?.source ?: ResponseLive.SOURCE_DEFAULT)))
+             return@zip ViewState.loaded(CurrencyResponse(listCurrencies,live.data?.source ?: ResponseLive.SOURCE_DEFAULT))
          }
+                 .catch { emit(ViewState.error(it)) }
+                 .collect { emit(it) }
      }
  }

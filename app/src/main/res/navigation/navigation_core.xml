@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/home"
+    android:id="@+id/navigation_core">
+
+    <fragment
+        android:id="@+id/home"
+        tools:layout="@layout/converter_fragment"
+        android:name="com.luan.clearconvertmoney.presentation.fragments.ConvertCurrencyFragment"
+        android:label="Convert Currency">
+
+        <action
+            android:id="@+id/action_home_to_list"
+            app:destination="@id/list" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/list"
+        tools:layout="@layout/currency_list_fragment"
+        android:name="com.luan.clearconvertmoney.presentation.fragments.ConvertCurrencyFragment"
+        android:label="Convert Currency">
+
+        <argument
+            app:argType="com.luan.clearconvertmoney.presentation.fragments.ConvertCurrencyFragment.ListType"
+            android:defaultValue="FROM"
+            android:name="listType"/>
+
+    </fragment>
+
+</navigation>

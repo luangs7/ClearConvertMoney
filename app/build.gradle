@@ -23,5 +23,6 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api modulesDependencies.common
+    api modulesDependencies.domain
     implementation modulesDependencies.values()
 }

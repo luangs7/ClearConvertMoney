@@ -14,4 +14,8 @@ class ResponseCurrencies(
     @PrimaryKey
     @SerializedName("success")
     val success: Boolean = false,
-)
+){
+    @SerializedName("error")
+    @Ignore
+    val error: Error? = null
+}

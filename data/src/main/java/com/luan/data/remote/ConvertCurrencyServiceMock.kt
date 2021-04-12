@@ -13,7 +13,7 @@ class ConvertCurrencyServiceMock : ConvertCurrencyService {
                 quotes = mapOf(
                     Pair("AED", "3.672982"),
                     Pair("AFN", "57.8936"),
-                    Pair("ALL", "126.1652"),
+                    Pair("ALL", "126.1652")
                 ),
                 success = true,
                 source = "USD"
@@ -28,7 +28,7 @@ class ConvertCurrencyServiceMock : ConvertCurrencyService {
                 currencies = mapOf(
                     Pair("AED", "United Arab Emirates Dirham"),
                     Pair("AFN", "Afghan Afghani"),
-                    Pair("USD", "Albanian Lek"),
+                    Pair("USD", "Albanian Lek")
                 ),
                 success = true)
         )

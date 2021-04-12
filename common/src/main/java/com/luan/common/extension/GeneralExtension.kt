@@ -3,6 +3,10 @@ package com.luan.common.extension
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.luan.common.base.ViewState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Response
 
 fun Fragment.handleLoading(status: ViewState.Status, view:View){
@@ -13,3 +17,22 @@ fun Fragment.handleLoading(status: ViewState.Status, view:View){
 fun <T> Response<T>.isNotFound():Boolean = this.code() == 404
 
 infix fun <T> Boolean.then(param: T): T? = if (this) param else null
+
+inline fun <T1: Any, T2: Any, T3: Any, T4: Any, R: Any> safeLet(p1: T1?, p2: T2?, p3: T3?, p4: T4?, block: (T1, T2, T3, T4)->R?): R? {
+    return if (p1 != null && p2 != null && p3 != null && p4 != null) block(p1, p2, p3, p4) else null
+}
+
+fun <T> debounce(
+    waitMs: Long = 300L,
+    scope: CoroutineScope,
+    destinationFunction: (T) -> Unit
+): (T) -> Unit {
+    var debounceJob: Job? = null
+    return { param: T ->
+        debounceJob?.cancel()
+        debounceJob = scope.launch {
+            delay(waitMs)
+            destinationFunction(param)
+        }
+    }
+}

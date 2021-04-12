@@ -12,7 +12,7 @@ import com.luan.domain.repository.ConvertCurrencyRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val moduleData = module {
+val dataModule = module {
 
     fun provideDatabase(application: Context): ConvertCurrencyDatabase {
         return Room.databaseBuilder(application, ConvertCurrencyDatabase::class.java, "convertcurrency")
