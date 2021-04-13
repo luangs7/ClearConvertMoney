@@ -67,6 +67,8 @@ class ConvertCurrencyRepositoryImpl(
                     throw CurrencyServiceException(result.error?.info)
                 }
             } ?: kotlin.run { throw CurrencyListEmptyException() }
+        }else{
+            throw CurrencyListEmptyException()
         }
     }.flowOn(Dispatchers.Default)
 

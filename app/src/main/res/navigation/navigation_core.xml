@@ -20,11 +20,11 @@
     <fragment
         android:id="@+id/list"
         tools:layout="@layout/currency_list_fragment"
-        android:name="com.luan.clearconvertmoney.presentation.fragments.ConvertCurrencyFragment"
+        android:name="com.luan.clearconvertmoney.presentation.fragments.CurrencyListFragment"
         android:label="Convert Currency">
 
         <argument
-            app:argType="com.luan.clearconvertmoney.presentation.fragments.ConvertCurrencyFragment.ListType"
+            app:argType="com.luan.clearconvertmoney.presentation.MainActivity$ListType"
             android:defaultValue="FROM"
             android:name="listType"/>
 

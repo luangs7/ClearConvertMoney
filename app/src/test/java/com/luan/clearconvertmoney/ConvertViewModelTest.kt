@@ -74,18 +74,4 @@ class ConvertViewModelTest : AutoCloseKoinTest() {
 
         assert(history.last().symbol == currency.symbol)
     }
-
-
-    @Test
-    fun check_Value_To_Show(){
-        val observer = viewModel.convertedResultShow.test()
-
-        viewModel.setValueToShow("1")
-
-        val history = observer
-            .assertHasValue()
-            .valueHistory()
-
-        assert(history.last().isNotEmpty())
-    }
 }

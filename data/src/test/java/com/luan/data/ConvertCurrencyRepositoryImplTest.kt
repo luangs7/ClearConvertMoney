@@ -32,9 +32,7 @@ class ConvertCurrencyRepositoryImplTest : AutoCloseKoinTest() {
             whenever(dao.getCurrencies()).thenReturn(flowOf(ResponseCurrencies(currencies = emptyMap(),success = true)))
 
             val result = repository.getCurrencies().take(2).toList()
-            assert(result.last().status == ViewState.Status.ERROR)
-            assert(result.last().data == null)
-            assert(result.last().exception is CurrencyListEmptyException)
+            assert(result.last().status == ViewState.Status.LOADED)
         }
     }
 
@@ -65,11 +63,11 @@ class ConvertCurrencyRepositoryImplTest : AutoCloseKoinTest() {
     fun check_Get_Currencies_From_Server_With_Error_Code(){
         runBlocking {
             whenever(service.currenciesList()).thenReturn(Response.success(ResponseCurrencies(currencies = mapOf(Pair("AED", "United Arab Emirates Dirham")),success = false)))
+            whenever(dao.getCurrencies()).thenReturn(flowOf(ResponseCurrencies(currencies = mapOf(Pair("AED", "United Arab Emirates Dirham")),success = true)))
 
             val result = repository.getCurrencies().take(2).toList()
-            assert(result.last().status == ViewState.Status.ERROR)
-            assert(result.last().data.isNullOrEmpty())
-            assert(result.last().exception is CurrencyServiceException)
+            assert(result.last().status == ViewState.Status.LOADED)
+            assert(result.last().data.isNullOrEmpty().not())
         }
     }
 
@@ -80,9 +78,7 @@ class ConvertCurrencyRepositoryImplTest : AutoCloseKoinTest() {
             whenever(dao.getLive()).thenReturn(flowOf(ResponseLive(quotes = emptyMap(),success = true)))
 
             val result = repository.getLiveQuotes().take(2).toList()
-            assert(result.last().status == ViewState.Status.ERROR)
-            assert(result.last().data == null)
-            assert(result.last().exception is CurrencyListEmptyException)
+            assert(result.last().status == ViewState.Status.LOADED)
         }
     }
 
@@ -115,11 +111,11 @@ class ConvertCurrencyRepositoryImplTest : AutoCloseKoinTest() {
     fun check_Get_Quotes_From_Server_With_Error_Code(){
         runBlocking {
             whenever(service.getLive()).thenReturn(Response.success(ResponseLive(quotes = null,success = false)))
+            whenever(dao.getLive()).thenReturn(flowOf(ResponseLive(quotes = mapOf(Pair("AED", "3.672982")),success = true)))
 
             val result = repository.getLiveQuotes().take(2).toList()
-            assert(result.last().status == ViewState.Status.ERROR)
-            assert(result.last().data?.quotes.isNullOrEmpty())
-            assert(result.last().exception is CurrencyServiceException)
+            assert(result.last().status == ViewState.Status.LOADED)
+            assert(result.last().data?.quotes.isNullOrEmpty().not())
         }
     }
 }

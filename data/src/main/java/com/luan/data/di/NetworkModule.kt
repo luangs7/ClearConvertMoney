@@ -34,7 +34,7 @@ class NetworkModule {
             client: OkHttpClient
         ): Retrofit {
             return Retrofit.Builder()
-                .baseUrl("http://api.currencylayer.com/")
+                .baseUrl("https://api.currencylayer.com/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().enableComplexMapKeySerialization().create()))
                 .build()

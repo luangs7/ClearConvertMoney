@@ -1,5 +1,7 @@
 package com.luan.clearconvertmoney.presentation
 
+import android.annotation.SuppressLint
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,19 +32,15 @@ class ConvertViewModel(
     val getCurrenciesResponse = _getCurrenciesResponse.toSingleEvent()
 
     private val _currencyFrom = MutableLiveData<Currency>()
-    val currencyFrom = _currencyFrom.toSingleEvent()
+    val currencyFrom: LiveData<Currency>  = _currencyFrom
 
     private val _currencyTo = MutableLiveData<Currency>()
-    val currencyTo = _currencyTo.toSingleEvent()
-
-    private val valueToFormat = MutableLiveData<String>()
-
-    val currenciesToShow = MutableLiveData<String>("Escolha as moedas de conversão")
-
-    val convertedResultShow = MutableLiveData<String>()
+    val currencyTo: LiveData<Currency> = _currencyTo
 
     private val _getCurrenciesFiltered = MutableLiveData<List<Currency>>()
     val getCurrenciesFiltered = _getCurrenciesFiltered.toSingleEvent()
+
+    val enableButtons = MutableLiveData<Boolean>(false)
 
     init {
         getCurrencies()
@@ -58,13 +56,13 @@ class ConvertViewModel(
         }
     }
 
-    fun convert() {
+    fun convert(valueToFormat:String?) {
         viewModelScope.launch {
             safeLet(
                 _currencyTo.value,
                 _currencyFrom.value,
                 _getCurrenciesResponse.value?.data?.source,
-                valueToFormat.value
+                valueToFormat
             ) { to, from, source, value ->
                 convertUseCase.invoke(CurrencyConvert(to, from, source, value))
                     .onStart { _convertResult.postValue(ViewState.loading()) }
@@ -77,25 +75,26 @@ class ConvertViewModel(
 
     fun setCurrencyFrom(currency: Currency) {
         _currencyFrom.postValue(currency)
-        currenciesToShow.postValue("${currency.symbol} para ${_currencyTo.value?.symbol ?: ""}")
     }
 
     fun setCurrencyTo(currency: Currency) {
         _currencyTo.postValue(currency)
-        currenciesToShow.postValue("${_currencyFrom.value?.symbol ?: ""} para ${currency.symbol}")
     }
 
-    fun setValueToShow(value: String) {
-        convertedResultShow.postValue(value)
-    }
-
-    fun search(query:String){
-        if(query.isNotEmpty()) {
+    @SuppressLint("DefaultLocale")
+    fun search(query:String?){
+        if(query.isNullOrEmpty().not()) {
             _getCurrenciesFiltered.postValue(_getCurrenciesResponse.value?.data?.currencies?.filter {
-                it.symbol.contains(query) || it.extendedName.contains(query)  })
+                it.symbol.toLowerCase().contains(query!!.toLowerCase()) || it.extendedName.toLowerCase().contains(query.toLowerCase())  })
         }else{
             _getCurrenciesFiltered.postValue(_getCurrenciesResponse.value?.data?.currencies)
         }
     }
+
+    fun enableButtons(){
+        enableButtons.postValue(true)
+    }
+
+    fun getCurrenciesList():List<Currency>? = _getCurrenciesResponse.value?.data?.currencies
 
 }

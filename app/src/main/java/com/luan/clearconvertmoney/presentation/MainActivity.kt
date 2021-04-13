@@ -10,32 +10,15 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
+    enum class ListType {
+        FROM,
+        TO
+    }
+
     val viewModel: ConvertViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        setupObservers()
-    }
-
-    private fun setupObservers(){
-        viewModel.run {
-            convertResult.observe(this@MainActivity, Observer {
-                Log.d("","")
-            })
-
-            getCurrenciesResponse.observe(this@MainActivity, Observer {
-                Log.d("","")
-            })
-
-            currencyFrom.observe(this@MainActivity, Observer {
-                Log.d("","")
-            })
-
-            currencyTo.observe(this@MainActivity, Observer {
-                Log.d("","")
-            })
-        }
     }
 }

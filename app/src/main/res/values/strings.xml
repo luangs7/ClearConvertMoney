@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ClearConvertMoney</string>
+    <string name="search_label">Buscar...</string>
+    <string name="input_in">Valor de entrada</string>
+    <string name="choose_coin">Escolher moeda</string>
+    <string name="input_out">Valor de Saida</string>
+    <string name="service_exception">Não foi possível buscar listagem de moedas.</string>
+    <string name="generic_exception">Ocorreu um erro. Tenta novamente mais tarde</string>
+    <string name="empty_exception">Não foram encontrados nenhuma moeda para conversão</string>
 </resources>
